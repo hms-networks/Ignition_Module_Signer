@@ -27,6 +27,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.NullOutputStream;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 @SuppressWarnings("restriction")
 public class ModuleSigner {
 
@@ -133,7 +135,8 @@ public class ModuleSigner {
                 String keyStoreType = keyStoreFileName.substring(
                     keyStoreFileName.lastIndexOf('.') + 1).equalsIgnoreCase("pfx") ? "pkcs12" : "jks";
 
-                keyStore = KeyStore.getInstance(keyStoreType);
+                Security.addProvider(new BouncyCastleProvider());
+                keyStore = KeyStore.getInstance(keyStoreType, "BC");
                 keyStore.load(new FileInputStream(keyStoreFile), keyStorePwd.toCharArray());
             }
 
