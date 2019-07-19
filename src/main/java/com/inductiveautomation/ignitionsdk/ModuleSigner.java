@@ -129,7 +129,9 @@ public class ModuleSigner {
                 keyStore.load(null, keyStorePwd.toCharArray());
             } else {
                 File keyStoreFile = new File(commandLine.getOptionValue(OPT_KEY_STORE));
-                String keyStoreType = keyStoreFile.toPath().endsWith("pfx") ? "pkcs12" : "jks";
+                String keyStoreFileName = keyStoreFile.getName();
+                String keyStoreType = keyStoreFileName.substring(
+                    keyStoreFileName.lastIndexOf('.') + 1).equalsIgnoreCase("pfx") ? "pkcs12" : "jks";
 
                 keyStore = KeyStore.getInstance(keyStoreType);
                 keyStore.load(new FileInputStream(keyStoreFile), keyStorePwd.toCharArray());
